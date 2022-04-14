@@ -1,1 +1,65 @@
-
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "J-Link",
+            "type": "cortex-debug",
+            "cwd": "${workspaceRoot}",
+            "executable": "${workspaceFolder}/build/thing.elf",
+            "request": "launch",
+            "servertype": "jlink",
+            "serverpath": "C:/Program Files/SEGGER/JLink/JLinkGDBServerCL.exe",
+            "device": "STM32G031J6",
+            "interface": "swd",
+            "gdbPath": "arm-none-eabi-gdb",
+            "svdFile": "${workspaceFolder}/ThingDriver/STM32G031.svd",
+            "runToMain": true,
+            "postRestartCommands": [
+                "break main",
+                "continue"
+            ]
+        },
+        {
+            "name": "CMSIS-DAP",
+            "gdbPath": "arm-none-eabi-gdb",
+            "cwd": "${workspaceRoot}",
+            "executable": "${workspaceFolder}/build/thing.elf",
+            "request": "launch",
+            "type": "cortex-debug",
+            "servertype": "openocd",
+            "configFiles": [
+                "interface/cmsis-dap.cfg",
+                "target/stm32g0x.cfg"
+            ],
+            "openOCDLaunchCommands": [
+                "transport select swd",
+                "adapter speed 4000"
+            ],
+            "runToMain": true,
+            "svdFile": "${workspaceFolder}/ThingDriver/STM32G031.svd",
+            "postRestartCommands": [
+                "break main",
+                "continue"
+            ]
+        },
+        {
+            "name": "External GDB Server",
+            "type": "cortex-debug",
+            "cwd": "${workspaceRoot}",
+            "executable": "${workspaceFolder}/build/thing.elf",
+            "request": "launch",
+            "servertype": "external",
+            // This may need to be arm-none-eabi-gdb depending on your system
+            "gdbPath": "arm-none-eabi-gdb",
+            // Connect to an already running OpenOCD instance
+            "gdbTarget": "localhost:3333",
+            "svdFile": "${workspaceFolder}/ThingDriver/STM32G031.svd",
+            "runToMain": true,
+            // Work around for stopping at main on restart
+            "postRestartCommands": [
+                "break main",
+                "continue"
+            ]
+        }
+    ]
+}
