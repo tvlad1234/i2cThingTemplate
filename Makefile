@@ -45,7 +45,7 @@ BUILD_DIR = build
 
 # C includes
 C_INCLUDES =  \
--I$(foreach fd, $(APPDRIV), AppDrivers/$(fd)/Inc) \
+$(foreach fd, $(APPDRIV), -IAppDrivers/$(fd)/Inc) \
 -I$(foreach fd, $(SUBDIRS), $(fd)/Inc) \
 -IThingDriver/Core/Inc \
 -IThingDriver/Drivers/OLED/Inc \
